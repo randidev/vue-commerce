@@ -1,5 +1,5 @@
 <template>
-  <div :class="objectStyle">
+  <div :class="cardClass">
     <div class="cards">
       <div class="row">
         <div class="product-img">
@@ -49,10 +49,7 @@ export default reactive({
       gambar_default: "",
       count: 1,
       isFetching: false,
-      objectStyle: {
-        'container-women': false,
-        'container-men': false 
-      }
+      cardClass: []
     };
   },
 
@@ -66,11 +63,9 @@ export default reactive({
       this.products = products
       this.count = count
       this.category = category
-      
-      this.objectStyle = {
-        'container-men': this.getBgStyle(this.category) === 1,
-        'container-women': this.getBgStyle(this.category) === 2,
-      }
+
+      this.getBgStyle(this.category)
+
       this.isFetching = false
     } catch (error) {
       this.isFetching = false
@@ -90,11 +85,14 @@ export default reactive({
     getBgStyle(category){
       switch (category) {
         case "men's clothing":
-          return 1
+          this.cardClass = 'container-men'
+          break
         case "women's clothing":
-          return 2
+          this.cardClass = 'container-women'
+          break
         default:
-          return 2
+          this.cardClass = 'container-women'
+          break
       }
     },
     async addCount() {
@@ -121,10 +119,8 @@ export default reactive({
         this.count = count
         this.category = category
 
-        this.objectStyle = {
-          'container-men': this.getBgStyle(this.category) === 1,
-          'container-women': this.getBgStyle(this.category) === 2,
-        }
+        this.getBgStyle(this.category)
+        
         this.isFetching = false
       }
     },
